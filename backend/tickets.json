@@ -1,0 +1,31 @@
+[
+  {
+    "id": "1753522464025",
+    "subject": "perbaikan system pembelajaran",
+    "description": "sedang dalam perbaikan system",
+    "priority": "High",
+    "status": "New",
+    "agent": null,
+    "createdAt": "2025-07-26T09:34:24.025Z",
+    "updatedAt": "2025-07-26T09:35:13.949Z",
+    "comments": [
+      {
+        "id": "1753522498259",
+        "text": "dalam pengerjaan",
+        "author": "Agen",
+        "createdAt": "2025-07-26T09:34:58.259Z"
+      }
+    ]
+  },
+  {
+    "id": "1753522827271",
+    "subject": "test",
+    "description": "sadas",
+    "priority": "Low",
+    "status": "New",
+    "agent": null,
+    "createdAt": "2025-07-26T09:40:27.271Z",
+    "updatedAt": "2025-07-26T09:40:27.271Z",
+    "comments": []
+  }
+]

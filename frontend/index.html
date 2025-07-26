@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Helpdesk Ticketing System</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fas fa-headset"></i> Helpdesk Ticketing System</h1>
+
+        <div class="form-section"> <h2>Buat Tiket Baru</h2>
+            <form id="ticketForm">
+                <div class="form-group">
+                    <label for="subject">Subjek Tiket:</label>
+                    <input type="text" id="subject" placeholder="Masukkan subjek tiket" required aria-label="Subjek tiket">
+                </div>
+                <div class="form-group">
+                    <label for="description">Deskripsi Masalah:</label>
+                    <textarea id="description" rows="5" placeholder="Jelaskan masalah Anda secara detail..." required aria-label="Deskripsi masalah"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="priority">Prioritas Tiket:</label>
+                    <select id="priority" aria-label="Prioritas tiket">
+                        <option value="Low">Low</option>
+                        <option value="Medium" selected>Medium</option>
+                        <option value="High">High</option>
+                    </select>
+                </div>
+                <div class="btn-group"> <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane btn-icon"></i> Ajukan Tiket
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <hr> <div class="ticket-list-section">
+            <h2>Daftar Tiket Anda</h2>
+            <div class="filters">
+                <div class="form-group"> <label for="filterStatus">Filter Berdasarkan Status:</label>
+                    <select id="filterStatus" aria-label="Filter status tiket">
+                        <option value="All">Semua Status</option>
+                        <option value="New">Baru</option>
+                        <option value="In Progress">Dalam Proses</option>
+                        <option value="Resolved">Terselesaikan</option>
+                        <option value="Closed">Ditutup</option>
+                    </select>
+                </div>
+                <div class="form-group"> <label for="filterPriority">Filter Berdasarkan Prioritas:</label>
+                    <select id="filterPriority" aria-label="Filter prioritas tiket">
+                        <option value="All">Semua Prioritas</option>
+                        <option value="Low">Rendah</option>
+                        <option value="Medium">Sedang</option>
+                        <option value="High">Tinggi</option>
+                    </select>
+                </div>
+            </div>
+            <div id="ticketList" class="ticket-list">
+                </div>
+        </div>
+    </div>
+
+    <div id="ticketDetailModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTicketSubject">
+        <div class="modal-content">
+            <button class="close-button" aria-label="Tutup modal">&times;</button>
+            <h2 id="modalTicketSubject"><i class="fas fa-ticket-alt"></i> Detail Tiket</h2>
+            <p><strong>ID Tiket:</strong> <span id="modalTicketId"></span></p>
+            <p><strong>Deskripsi:</strong> <span id="modalTicketDescription"></span></p>
+            <p><strong>Prioritas:</strong> <span id="modalTicketPriority"></span></p>
+            <p><strong>Status:</strong> <span id="modalTicketStatus"></span></p>
+            <p><strong>Agen Penanggung Jawab:</strong> <span id="modalTicketAgent"></span></p>
+            <p><strong>Dibuat Pada:</strong> <span id="modalTicketCreatedAt"></span></p>
+            <p><strong>Terakhir Diperbarui:</strong> <span id="modalTicketUpdatedAt"></span></p>
+
+            <hr>
+
+            <h3><i class="fas fa-edit"></i> Perbarui Tiket</h3>
+            <div class="form-group">
+                <label for="updateStatus">Ubah Status:</label>
+                <select id="updateStatus" aria-label="Ubah status tiket">
+                    <option value="New">Baru</option>
+                    <option value="In Progress">Dalam Proses</option>
+                    <option value="Resolved">Terselesaikan</option>
+                    <option value="Closed">Ditutup</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="updateAgent">Tetapkan ke Agen (Opsional):</label>
+                <input type="text" id="updateAgent" placeholder="Nama Agen" aria-label="Nama agen penanggung jawab">
+            </div>
+            <div class="btn-group"> <button class="btn btn-primary" id="saveTicketChanges">
+                    <i class="fas fa-save btn-icon"></i> Simpan Perubahan
+                </button>
+                <button class="btn btn-danger" id="deleteTicketButton">
+                    <i class="fas fa-trash-alt btn-icon"></i> Hapus Tiket
+                </button>
+            </div>
+
+            <hr>
+
+            <h3><i class="fas fa-comments"></i> Komentar Tiket</h3>
+            <div id="modalComments" class="comments-section">
+                </div>
+            <div class="form-group">
+                <label for="newCommentText">Tambah Komentar Baru:</label>
+                <textarea id="newCommentText" rows="3" placeholder="Tulis komentar Anda di sini..." aria-label="Tulis komentar baru"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="newCommentAuthor">Nama Anda (Opsional):</label>
+                <input type="text" id="newCommentAuthor" value="Agen Helpdesk" placeholder="Nama Anda" aria-label="Nama pengirim komentar">
+            </div>
+            <div class="btn-group"> <button class="btn btn-primary" id="addCommentButton">
+                    <i class="fas fa-comment-dots btn-icon"></i> Tambah Komentar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

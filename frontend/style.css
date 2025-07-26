@@ -1,0 +1,749 @@
+/* --- style.css - Full-Width, Responsive, & Modern Look --- */
+
+/* Google Fonts Import */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+    /* --- Palet Warna Professional & Modern --- */
+    --primary-color: #4A90E2; /* Biru Cerah, Profesional */
+    --primary-dark: #357ABD;
+    --primary-light: #89CFF0; /* Biru Langit untuk aksen sangat ringan */
+
+    --secondary-color: #2ECC71; /* Hijau cerah untuk sukses/positif */
+    --secondary-dark: #27AE60;
+
+    --accent-color: #FFC107; /* Kuning/Amber untuk peringatan/penting */
+    --danger-color: #E74C3C; /* Merah untuk bahaya/error */
+    --info-color: #5BC0DE; /* Biru muda untuk info */
+
+    /* --- Background & Surface Colors --- */
+    --background-gradient-start: #E0F2F7; /* Gradien background utama */
+    --background-gradient-end: #D1EEF7;
+    --surface-color: #ffffff; /* Warna dasar kartu/modul */
+    --surface-glass-effect: rgba(255, 255, 255, 0.8); /* Transparan untuk glassmorphism */
+
+    /* --- Text Colors --- */
+    --text-color-dark: #2C3E50; /* Teks sangat gelap untuk judul utama */
+    --text-color-medium: #34495E; /* Teks standar, mudah dibaca */
+    --text-color-light: #7F8C8D; /* Teks abu-abu untuk deskripsi/sekunder */
+    --text-color-placeholder: #BDC3C7; /* Warna placeholder input */
+
+    /* --- Border & Divider Colors --- */
+    --border-color-default: #EAEAEA; /* Border standar */
+    --border-color-light: #F5F5F5; /* Border sangat terang */
+    --divider-color: #ECF0F1; /* Warna divider */
+
+    /* --- Bayangan (Halus & Modern) --- */
+    --shadow-z1: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --shadow-z2: 0 8px 20px rgba(0, 0, 0, 0.12);
+    --shadow-z3: 0 12px 30px rgba(0, 0, 0, 0.18);
+
+    /* --- Transisi Global --- */
+    --transition-fast: 0.2s ease-out;
+    --transition-normal: 0.3s ease-in-out;
+
+    /* --- Border Radius --- */
+    --border-radius-sm: 6px;
+    --border-radius-md: 10px;
+    --border-radius-lg: 15px;
+}
+
+/* --- Base & Body Styles --- */
+html {
+    box-sizing: border-box; /* Pastikan padding dan border termasuk dalam ukuran elemen */
+    font-size: 16px; /* Base font size */
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    /* Gradien background yang lebih lembut */
+    background: linear-gradient(135deg, var(--background-gradient-start) 0%, var(--background-gradient-end) 100%);
+    color: var(--text-color-medium);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden; /* Mencegah scroll horizontal yang tidak diinginkan */
+}
+
+/* --- Global Utilities --- */
+.flex-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* --- Main Container & Layout --- */
+.container {
+    width: 90%; /* Menggunakan persentase untuk lebar adaptif */
+    max-width: 1200px; /* Batas lebar maksimum untuk layar sangat besar */
+    margin: 40px auto; /* Margin vertikal otomatis, horizontal auto untuk tengah */
+    background-color: var(--surface-color);
+    padding: 35px 50px; /* Padding lebih luas dan konsisten */
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-z3); /* Bayangan kuat untuk kontainer utama */
+    flex-grow: 1;
+    border: 1px solid var(--border-color-default);
+    position: relative; /* Untuk positioning elemen internal jika diperlukan */
+    overflow: hidden; /* Penting untuk border-radius dan shadow */
+}
+
+/* --- Header --- */
+h1 {
+    font-family: 'IBM Plex Sans', sans-serif;
+    text-align: center;
+    color: var(--primary-color);
+    margin-bottom: 40px; /* Jarak lebih besar dari form */
+    font-size: 3.5em; /* Ukuran lebih besar untuk kesan "powerful" */
+    font-weight: 700;
+    letter-spacing: -0.05em;
+    line-height: 1.1;
+    text-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Bayangan teks lebih jelas */
+    animation: fadeInDown 0.8s ease-out; /* Animasi muncul */
+}
+
+h1 .fa-headset {
+    font-size: 0.9em; /* Ukuran ikon headset sedikit lebih kecil dari teks */
+    vertical-align: middle;
+    margin-right: 15px; /* Jarak ikon dari teks */
+    color: var(--secondary-color); /* Warna ikon berbeda */
+}
+
+h2 {
+    font-family: 'IBM Plex Sans', sans-serif;
+    color: var(--text-color-dark);
+    border-bottom: 1px solid var(--divider-color);
+    padding-bottom: 18px;
+    margin-top: 50px; /* Margin atas lebih besar */
+    margin-bottom: 30px;
+    font-size: 2.5em;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+}
+
+h3 {
+    font-family: 'IBM Plex Sans', sans-serif;
+    color: var(--text-color-dark);
+    font-size: 1.8em;
+    font-weight: 500;
+    margin-bottom: 15px;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background: linear-gradient(to right, rgba(236,240,241,0) 0%, var(--divider-color) 50%, rgba(236,240,241,0) 100%); /* Garis gradien halus */
+    margin: 60px 0; /* Margin lebih besar */
+}
+
+/* --- Form Section --- */
+.form-section {
+    padding: 30px; /* Padding lebih besar */
+    border: 1px solid var(--border-color-default);
+    border-radius: var(--border-radius-md);
+    background-color: var(--surface-color); /* Tetap putih agar bersih */
+    margin-bottom: 40px;
+    box-shadow: var(--shadow-z1);
+    transition: box-shadow var(--transition-normal);
+}
+
+.form-section:hover {
+    box-shadow: var(--shadow-z2); /* Sedikit naik saat hover */
+}
+
+.form-group {
+    margin-bottom: 22px; /* Jarak antar grup form lebih besar */
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--text-color-medium);
+    font-size: 0.95em;
+}
+
+.form-group input[type="text"],
+.form-group textarea,
+.form-group select,
+.form-group input[type="email"],
+.form-group input[type="tel"],
+.form-group input[type="date"],
+.form-group input[type="number"] {
+    width: 100%;
+    padding: 14px 18px; /* Padding lebih besar untuk input */
+    border: 1px solid var(--border-color-default);
+    border-radius: var(--border-radius-sm);
+    font-family: 'Inter', sans-serif;
+    font-size: 1.05em; /* Ukuran font input sedikit lebih besar */
+    background-color: var(--surface-color);
+    color: var(--text-color-dark);
+    box-sizing: border-box;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: var(--text-color-placeholder);
+    opacity: 0.8; /* Sedikit lebih transparan */
+}
+
+.form-group input[type="text"]:focus,
+.form-group textarea:focus,
+.form-group select:focus,
+.form-group input[type="email"]:focus,
+.form-group input[type="tel"]:focus,
+.form-group input[type="date"]:focus,
+.form-group input[type="number"]:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(74, 144, 226, 0.25); /* Ring fokus yang lebih tebal dan jelas */
+}
+
+.form-group textarea {
+    min-height: 150px; /* Lebih tinggi lagi */
+    resize: vertical;
+}
+
+/* --- Buttons --- */
+.btn-group {
+    display: flex;
+    flex-wrap: wrap; /* Agar tombol bisa wrap di layar kecil */
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 30px; /* Padding lebih besar */
+    border: none;
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 1.05em;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color var(--transition-fast), transform 0.1s ease-out, box-shadow var(--transition-fast);
+    white-space: nowrap;
+}
+
+.btn-icon {
+    margin-right: 10px; /* Jarak ikon dari teks tombol */
+    font-size: 1.1em;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+    box-shadow: var(--shadow-z1);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px); /* Efek angkat lebih terasa */
+    box-shadow: var(--shadow-z2);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-z1);
+}
+
+.btn-secondary {
+    background-color: var(--border-color-default);
+    color: var(--text-color-medium);
+    box-shadow: var(--shadow-z1);
+}
+
+.btn-secondary:hover {
+    background-color: #D5DCE0; /* Sedikit lebih gelap */
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-z2);
+}
+
+.btn-secondary:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-z1);
+}
+
+.btn-danger {
+    background-color: var(--danger-color);
+    color: white;
+    box-shadow: var(--shadow-z1);
+}
+
+.btn-danger:hover {
+    background-color: #C0392B;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-z2);
+}
+
+.btn-danger:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-z1);
+}
+
+/* --- Ticket List & Filters --- */
+.filters {
+    margin-bottom: 35px; /* Jarak lebih besar */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px 30px; /* Jarak vertikal dan horizontal antar filter */
+    align-items: center;
+    padding: 20px 30px; /* Padding lebih besar */
+    background-color: var(--surface-color);
+    border-radius: var(--border-radius-md);
+    border: 1px solid var(--border-color-default);
+    box-shadow: var(--shadow-z1);
+    transition: box-shadow var(--transition-normal);
+}
+
+.filters:hover {
+    box-shadow: var(--shadow-z2);
+}
+
+.filters .form-group { /* Menyesuaikan form-group di dalam filter */
+    margin-bottom: 0;
+    flex: 1; /* Memungkinkan item filter mengisi ruang */
+    min-width: 180px; /* Lebar minimum untuk setiap filter */
+}
+
+.filters label {
+    font-weight: 500;
+    color: var(--text-color-medium);
+    font-size: 0.9em;
+}
+
+.filters select {
+    padding: 10px 15px;
+    border: 1px solid var(--border-color-default);
+    border-radius: var(--border-radius-sm);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95em;
+    background-color: var(--surface-color);
+    color: var(--text-color-dark);
+    cursor: pointer;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.filters select:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+}
+
+.ticket-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); /* Ukuran kartu lebih besar */
+    gap: 30px; /* Jarak antar kartu lebih besar */
+    padding-top: 10px; /* Sedikit padding di atas daftar */
+}
+
+.ticket-item {
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color-light);
+    border-radius: var(--border-radius-md);
+    padding: 28px; /* Padding lebih besar */
+    box-shadow: var(--shadow-z1);
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal), border-color var(--transition-normal);
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 200px; /* Tinggi minimum yang lebih konsisten */
+    overflow: hidden;
+}
+
+.ticket-item:hover {
+    transform: translateY(-5px); /* Efek angkat yang lebih nyata */
+    box-shadow: var(--shadow-z2);
+    border-color: var(--primary-color);
+}
+
+.ticket-item h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: var(--text-color-dark);
+    font-size: 1.6em;
+    font-weight: 600;
+    line-height: 1.3;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.ticket-item h3 .ticket-icon {
+    color: var(--primary-color);
+    font-size: 1.1em;
+}
+
+.ticket-item p {
+    margin: 8px 0;
+    font-size: 0.95em;
+    color: var(--text-color-medium);
+}
+
+.ticket-item .info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px; /* Jarak dari teks deskripsi */
+    padding-top: 15px;
+    border-top: 1px dashed var(--divider-color); /* Garis putus-putus untuk detail */
+    font-size: 0.85em;
+    color: var(--text-color-light);
+    gap: 10px; /* Jarak antar item di info-row */
+    flex-wrap: wrap; /* Agar bisa wrap di layar sempit */
+}
+
+.ticket-item strong {
+    color: var(--text-color-dark);
+    font-weight: 600;
+}
+
+/* Priority Colors */
+.priority-high { color: var(--danger-color); font-weight: 600; }
+.priority-medium { color: var(--accent-color); font-weight: 500; }
+.priority-low { color: var(--secondary-color); font-weight: 500; }
+
+/* Status Badge */
+.status-badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 7px 16px; /* Padding lebih besar */
+    border-radius: 25px; /* Bentuk pil yang lebih bulat */
+    font-size: 0.8em;
+    font-weight: 700;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    box-shadow: var(--shadow-z1);
+    white-space: nowrap;
+    z-index: 5; /* Pastikan di atas konten lain jika tumpang tindih */
+}
+
+/* Status Colors */
+.status-New { background-color: var(--primary-color); }
+.status-In-Progress { background-color: var(--accent-color); }
+.status-Resolved { background-color: var(--secondary-color); }
+.status-Closed { background-color: var(--text-color-light); }
+
+
+/* --- Modal Styles (Pop-up Detail Tiket) --- */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: rgba(0,0,0,0.65); /* Overlay lebih gelap untuk fokus penuh */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--transition-normal), visibility var(--transition-normal);
+}
+
+.modal.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background-color: var(--surface-glass-effect); /* Efek glassmorphism */
+    backdrop-filter: blur(8px); /* Blur untuk glassmorphism */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Border semi-transparan */
+    padding: 40px 55px; /* Padding lebih besar */
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-z3);
+    position: relative;
+    width: 90%; /* Lebar adaptif */
+    max-width: 800px; /* Batas lebar maksimum */
+    max-height: 90vh;
+    overflow-y: auto;
+    transform: scale(0.9);
+    transition: transform var(--transition-normal) cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.modal.show .modal-content {
+    transform: scale(1);
+}
+
+.close-button {
+    color: var(--text-color-light);
+    font-size: 42px; /* Ukuran lebih besar */
+    font-weight: 300;
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    cursor: pointer;
+    transition: color var(--transition-fast);
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: var(--text-color-dark);
+}
+
+.modal-content h2 {
+    color: var(--primary-color);
+    margin-top: 0;
+    margin-bottom: 25px;
+    border-bottom: none;
+    font-size: 2.8em;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.modal-content h2 .fa-ticket-alt {
+    font-size: 0.9em;
+    color: var(--secondary-color);
+}
+
+.modal-content p {
+    margin-bottom: 12px;
+    color: var(--text-color-medium);
+    font-size: 1.05em; /* Ukuran teks lebih nyaman dibaca di modal */
+}
+
+.modal-content strong {
+    color: var(--text-color-dark);
+    font-weight: 600;
+}
+
+.comments-section {
+    border-top: 1px solid var(--divider-color);
+    padding-top: 25px;
+    margin-top: 30px;
+    max-height: 350px; /* Tinggi maksimum komentar lebih fleksibel */
+    overflow-y: auto;
+    padding-right: 15px; /* Ruang untuk scrollbar */
+}
+
+.comments-section h3 {
+    color: var(--text-color-dark);
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1.7em;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.comments-section h3 .fa-comments {
+    color: var(--info-color);
+}
+
+.comment-item {
+    background-color: rgba(245, 247, 250, 0.9); /* Background komentar sedikit transparan */
+    border-left: 5px solid var(--secondary-color);
+    padding: 18px 22px; /* Padding lebih besar */
+    margin-bottom: 15px;
+    border-radius: var(--border-radius-md);
+    font-size: 0.95em;
+    box-shadow: var(--shadow-z1);
+    display: flex;
+    flex-direction: column;
+}
+
+.comment-item .comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Align items vertically */
+    flex-wrap: wrap; /* Agar bisa wrap di layar kecil */
+    margin-bottom: 8px;
+    gap: 10px; /* Jarak antar nama dan tanggal */
+}
+
+.comment-item strong {
+    color: var(--text-color-dark);
+    font-weight: 600;
+    font-size: 1.05em;
+}
+
+.comment-item .comment-date {
+    font-size: 0.8em;
+    color: var(--text-color-light);
+    white-space: nowrap;
+}
+
+.comment-item p {
+    margin: 0;
+    color: var(--text-color-medium);
+    line-height: 1.5;
+}
+
+/* --- Keyframe Animations --- */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* --- Responsive Design (Media Queries) --- */
+
+/* Tablet & Smaller Desktops */
+@media (max-width: 1024px) {
+    .container {
+        width: 95%;
+        margin: 30px auto;
+        padding: 30px 40px;
+    }
+    h1 { font-size: 3em; margin-bottom: 35px; }
+    h2 { font-size: 2.2em; margin-top: 40px; }
+    .ticket-list {
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 25px;
+    }
+    .modal-content {
+        max-width: 700px;
+        padding: 35px 45px;
+    }
+}
+
+/* Large Phones & Small Tablets */
+@media (max-width: 768px) {
+    .container {
+        width: 100%; /* Full width */
+        margin: 0; /* No margin */
+        padding: 20px;
+        border-radius: 0; /* Sharp corners for full-width look */
+        box-shadow: none; /* No shadow */
+        border: none;
+    }
+    h1 { font-size: 2.5em; margin-bottom: 30px; }
+    h1 .fa-headset { margin-right: 10px; }
+    h2 { font-size: 1.9em; margin-top: 30px; }
+    h3 { font-size: 1.6em; }
+
+    .form-section {
+        padding: 20px;
+        border-radius: var(--border-radius-md); /* Tetap pakai radius di mobile */
+        box-shadow: var(--shadow-z1); /* Tetap pakai shadow ringan */
+        border: 1px solid var(--border-color-default);
+    }
+
+    .form-group input, .form-group textarea, .form-group select {
+        padding: 12px 15px;
+        font-size: 1em;
+    }
+
+    .btn-group {
+        flex-direction: column; /* Tombol menumpuk vertikal */
+        gap: 10px;
+    }
+    .btn {
+        width: 100%; /* Tombol memenuhi lebar */
+        padding: 12px 20px;
+        font-size: 1em;
+    }
+
+    .filters {
+        flex-direction: column;
+        align-items: stretch; /* Memanjang penuh */
+        gap: 15px;
+        padding: 15px 20px;
+    }
+    .filters .form-group {
+        min-width: unset; /* Reset min-width */
+        width: 100%; /* Filter select box memenuhi lebar */
+    }
+
+    .ticket-list {
+        grid-template-columns: 1fr; /* Tiket menumpuk vertikal */
+        gap: 20px;
+    }
+    .ticket-item {
+        min-height: auto; /* Hilangkan min-height di mobile */
+        padding: 22px;
+    }
+    .status-badge {
+        position: static; /* Kembali ke posisi normal di mobile */
+        margin-top: 10px; /* Jarak dari konten di atasnya */
+        display: inline-block;
+        box-shadow: none;
+        top: unset; right: unset; /* Reset posisi absolute */
+    }
+    .ticket-item .info-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+        margin-top: 10px;
+        padding-top: 10px;
+    }
+
+    .modal-content {
+        width: 95%;
+        padding: 30px;
+        border-radius: var(--border-radius-md);
+        backdrop-filter: blur(5px); /* Blur sedikit lebih ringan di mobile */
+    }
+    .modal-content h2 { font-size: 2.2em; }
+    .comments-section { max-height: 250px; }
+    .comment-item { padding: 15px 18px; }
+}
+
+/* Small Phones */
+@media (max-width: 480px) {
+    h1 { font-size: 2em; margin-bottom: 25px; }
+    h1 .fa-headset { margin-right: 8px; font-size: 0.8em; }
+    h2 { font-size: 1.7em; margin-top: 25px; }
+    h3 { font-size: 1.4em; }
+
+    .container { padding: 15px; }
+    .form-section { padding: 15px; }
+
+    .form-group input, .form-group textarea, .form-group select {
+        padding: 10px 12px;
+        font-size: 0.95em;
+    }
+    .form-group textarea { min-height: 120px; }
+
+    .btn { padding: 10px 15px; font-size: 0.9em; }
+    .btn-icon { margin-right: 8px; font-size: 1em; }
+
+    .filters { padding: 10px 15px; gap: 10px; }
+    .filters label { font-size: 0.85em; }
+    .filters select { padding: 8px 10px; font-size: 0.9em; }
+
+    .ticket-item { padding: 18px; }
+    .ticket-item h3 { font-size: 1.4em; gap: 8px; }
+    .ticket-item p { font-size: 0.9em; }
+    .ticket-item .info-row { font-size: 0.8em; }
+    .status-badge { font-size: 0.7em; padding: 5px 10px; }
+
+    .modal-content { padding: 25px; }
+    .close-button { font-size: 36px; top: 10px; right: 15px; }
+    .modal-content h2 { font-size: 2em; gap: 10px; }
+    .modal-content p { font-size: 0.95em; }
+    .comments-section { padding-right: 10px; }
+    .comment-item { padding: 12px 15px; }
+    .comment-item strong { font-size: 1em; }
+    .comment-item .comment-date { font-size: 0.75em; }
+}
