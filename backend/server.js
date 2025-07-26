@@ -1,49 +1,53 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const fs = require('fs');
-const path = require('path');
+// const fs = require('fs'); // Hapus atau komen baris ini
+// const path = require('path'); // Hapus atau komen baris ini
+
+// Import Replit DB
+const Database = require('@replit/database');
+const db = new Database(); // Inisialisasi Replit DB
 
 const app = express();
 const PORT = 3000;
-const DATA_FILE = path.join(__dirname, 'tickets.json');
+// const DATA_FILE = path.join(__dirname, 'tickets.json'); // Hapus atau komen baris ini
+const DB_KEY = 'allTickets'; // Kunci untuk menyimpan semua tiket di Replit DB
 
 // Middleware
-app.use(cors()); // Mengizinkan permintaan dari domain lain (untuk frontend)
-app.use(bodyParser.json()); // Mengurai body permintaan sebagai JSON
+app.use(cors());
+app.use(bodyParser.json());
 
-// Fungsi untuk membaca tiket dari file JSON
-const readTickets = () => {
+// Fungsi untuk membaca tiket dari Replit DB
+const readTickets = async () => {
     try {
-        const data = fs.readFileSync(DATA_FILE, 'utf8');
-        return JSON.parse(data);
+        const tickets = await db.get(DB_KEY); // Ambil data dari Replit DB
+        return tickets || []; // Jika belum ada, kembalikan array kosong
     } catch (error) {
-        // Jika file tidak ada atau rusak, kembalikan array kosong
-        if (error.code === 'ENOENT') {
-            console.log('tickets.json not found, creating an empty one.');
-            return [];
-        }
-        console.error('Error reading tickets.json:', error);
+        console.error('Error reading tickets from Replit DB:', error);
         return [];
     }
 };
 
-// Fungsi untuk menulis tiket ke file JSON
-const writeTickets = (tickets) => {
-    fs.writeFileSync(DATA_FILE, JSON.stringify(tickets, null, 2), 'utf8');
+// Fungsi untuk menulis tiket ke Replit DB
+const writeTickets = async (tickets) => {
+    try {
+        await db.set(DB_KEY, tickets); // Simpan data ke Replit DB
+    } catch (error) {
+        console.error('Error writing tickets to Replit DB:', error);
+    }
 };
 
 // --- API Endpoints ---
 
 // GET: Mendapatkan semua tiket
-app.get('/api/tickets', (req, res) => {
-    const tickets = readTickets();
+app.get('/api/tickets', async (req, res) => {
+    const tickets = await readTickets();
     res.json(tickets);
 });
 
 // GET: Mendapatkan tiket berdasarkan ID
-app.get('/api/tickets/:id', (req, res) => {
-    const tickets = readTickets();
+app.get('/api/tickets/:id', async (req, res) => {
+    const tickets = await readTickets();
     const ticket = tickets.find(t => t.id === req.params.id);
     if (ticket) {
         res.json(ticket);
@@ -53,37 +57,37 @@ app.get('/api/tickets/:id', (req, res) => {
 });
 
 // POST: Membuat tiket baru
-app.post('/api/tickets', (req, res) => {
-    const tickets = readTickets();
+app.post('/api/tickets', async (req, res) => {
+    const tickets = await readTickets();
     const newTicket = {
-        id: Date.now().toString(), // ID unik berbasis timestamp
+        id: Date.now().toString(),
         subject: req.body.subject,
         description: req.body.description,
         priority: req.body.priority || 'Medium',
-        status: 'New', // Status awal
-        agent: null, // Agen belum ditugaskan
+        status: 'New',
+        agent: req.body.agent || null,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
         comments: []
     };
     tickets.push(newTicket);
-    writeTickets(tickets);
+    await writeTickets(tickets); // Gunakan await
     res.status(201).json(newTicket);
 });
 
 // PUT: Memperbarui tiket (status, agen, dll.)
-app.put('/api/tickets/:id', (req, res) => {
-    const tickets = readTickets();
+app.put('/api/tickets/:id', async (req, res) => {
+    const tickets = await readTickets();
     const ticketIndex = tickets.findIndex(t => t.id === req.params.id);
 
     if (ticketIndex !== -1) {
         const updatedTicket = {
             ...tickets[ticketIndex],
-            ...req.body, // Update properti yang diberikan dari body
+            ...req.body,
             updatedAt: new Date().toISOString()
         };
         tickets[ticketIndex] = updatedTicket;
-        writeTickets(tickets);
+        await writeTickets(tickets); // Gunakan await
         res.json(updatedTicket);
     } else {
         res.status(404).json({ message: 'Ticket not found' });
@@ -91,8 +95,8 @@ app.put('/api/tickets/:id', (req, res) => {
 });
 
 // POST: Menambahkan komentar ke tiket
-app.post('/api/tickets/:id/comments', (req, res) => {
-    const tickets = readTickets();
+app.post('/api/tickets/:id/comments', async (req, res) => {
+    const tickets = await readTickets();
     const ticketIndex = tickets.findIndex(t => t.id === req.params.id);
 
     if (ticketIndex !== -1) {
@@ -104,7 +108,7 @@ app.post('/api/tickets/:id/comments', (req, res) => {
         };
         tickets[ticketIndex].comments.push(newComment);
         tickets[ticketIndex].updatedAt = new Date().toISOString();
-        writeTickets(tickets);
+        await writeTickets(tickets); // Gunakan await
         res.status(201).json(newComment);
     } else {
         res.status(404).json({ message: 'Ticket not found' });
@@ -112,18 +116,50 @@ app.post('/api/tickets/:id/comments', (req, res) => {
 });
 
 // DELETE: Menghapus tiket
-app.delete('/api/tickets/:id', (req, res) => {
-    let tickets = readTickets();
+app.delete('/api/tickets/:id', async (req, res) => {
+    let tickets = await readTickets();
     const initialLength = tickets.length;
     tickets = tickets.filter(t => t.id !== req.params.id);
     if (tickets.length < initialLength) {
-        writeTickets(tickets);
-        res.status(204).send(); // No Content
+        await writeTickets(tickets); // Gunakan await
+        res.status(204).send();
     } else {
         res.status(404).json({ message: 'Ticket not found' });
     }
 });
 
+// NEW API Endpoint: Export Tickets to CSV
+app.get('/api/tickets/export/csv', async (req, res) => {
+    const tickets = await readTickets(); // Baca dari Replit DB
+
+    if (tickets.length === 0) {
+        return res.status(204).send();
+    }
+
+    const headers = ["ID", "Subjek", "Deskripsi", "Prioritas", "Status", "Agen", "Dibuat Pada", "Terakhir Diupdate", "Jumlah Komentar"];
+
+    const csvRows = tickets.map(ticket => {
+        const description = `"${ticket.description.replace(/"/g, '""')}"`;
+        const commentCount = ticket.comments ? ticket.comments.length : 0;
+        return [
+            ticket.id,
+            `"${ticket.subject.replace(/"/g, '""')}"`,
+            description,
+            ticket.priority,
+            ticket.status,
+            `"${ticket.agent || 'Belum Ditugaskan'}"`,
+            ticket.createdAt,
+            ticket.updatedAt,
+            commentCount
+        ].join(',');
+    });
+
+    const csvContent = [headers.join(','), ...csvRows].join('\n');
+
+    res.setHeader('Content-Type', 'text/csv');
+    res.setHeader('Content-Disposition', 'attachment; filename="tickets_export.csv"');
+    res.send(csvContent);
+});
 
 // Jalankan server
 app.listen(PORT, () => {
